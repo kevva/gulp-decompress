@@ -15,6 +15,8 @@ module.exports = function (opts) {
 	opts = opts || {};
 
 	return through.obj(function (file, enc, cb) {
+		var self = this;
+
 		if (file.isNull()) {
 			cb(null, file);
 			return;
@@ -38,7 +40,11 @@ module.exports = function (opts) {
 				return;
 			}
 
-			cb(null, files[0]);
+			files.forEach(function (file) {
+				self.push(file);
+			});
+
+			cb();
 		});
 	});
 };
