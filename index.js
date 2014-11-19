@@ -40,10 +40,7 @@ module.exports = function (opts) {
 				return;
 			}
 
-			files.forEach(function (file) {
-				self.push(file);
-			});
-
+			files.forEach(self.push.bind(self));
 			cb();
 		});
 	});
