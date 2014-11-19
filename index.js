@@ -36,14 +36,11 @@ module.exports = function (opts) {
 
 		decompress.run(function (err, files) {
 			if (err) {
-				cb(new gutil.PluginError('gulp-imagemin:', err, { fileName: file.path }));
+				cb(new gutil.PluginError('gulp-decompress:', err, { fileName: file.path }));
 				return;
 			}
 
-			files.forEach(function (file) {
-				self.push(file);
-			});
-
+			files.forEach(self.push.bind(self));
 			cb();
 		});
 	});
