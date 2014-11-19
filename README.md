@@ -12,6 +12,7 @@ $ npm install --save gulp-decompress
 
 ```js
 var decompress = require('gulp-decompress');
+var gulp = require('gulp');
 
 gulp.task('default', function () {
 	return gulp.src('*.{tar,tar.bz2,tar.gz,zip}')
