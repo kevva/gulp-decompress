@@ -4,13 +4,6 @@ var Decompress = require('decompress');
 var gutil = require('gulp-util');
 var through = require('through2');
 
-/**
- * Extract TAR, TAR.BZ2, TAR.GZ and ZIP archives
- *
- * @param {Object} opts
- * @api public
- */
-
 module.exports = function (opts) {
 	opts = opts || {};
 
