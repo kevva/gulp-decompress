@@ -1,5 +1,6 @@
 'use strict';
 
+var archiveType = require('archive-type');
 var Decompress = require('decompress');
 var gutil = require('gulp-util');
 var through = require('through2');
@@ -17,6 +18,11 @@ module.exports = function (opts) {
 
 		if (file.isStream()) {
 			cb(new gutil.PluginError('gulp-decompress', 'Streaming is not supported'));
+			return;
+		}
+
+		if (!archiveType(file.contents)) {
+			cb(null, file);
 			return;
 		}
 

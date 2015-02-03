@@ -70,3 +70,18 @@ test('extract .zip', function (t) {
 		path: path.join(__dirname, 'fixtures/test.zip')
 	}));
 });
+
+test('ignore non-archive files', function (t) {
+	t.plan(1);
+
+	var stream = decompress();
+
+	stream.on('data', function (file) {
+		t.assert(path.basename(file.path) === 'test.js');
+	});
+
+	stream.end(new gutil.File({
+		contents: fs.readFileSync(__filename),
+		path: __filename
+	}));
+});
