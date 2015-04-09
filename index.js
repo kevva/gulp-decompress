@@ -9,8 +9,6 @@ module.exports = function (opts) {
 	opts = opts || {};
 
 	return through.obj(function (file, enc, cb) {
-		var self = this;
-
 		if (file.isNull()) {
 			cb(null, file);
 			return;
@@ -35,12 +33,12 @@ module.exports = function (opts) {
 
 		decompress.run(function (err, files) {
 			if (err) {
-				cb(new gutil.PluginError('gulp-decompress:', err, { fileName: file.path }));
+				cb(new gutil.PluginError('gulp-decompress:', err, {fileName: file.path}));
 				return;
 			}
 
-			files.forEach(self.push.bind(self));
+			files.forEach(this.push.bind(this));
 			cb();
-		});
+		}.bind(this));
 	});
 };

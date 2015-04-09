@@ -2,11 +2,13 @@
 
 > Extract TAR, TAR.BZ2, TAR.GZ and ZIP archives using [decompress](https://github.com/kevva/decompress)
 
+
 ## Install
 
-```sh
+```
 $ npm install --save gulp-decompress
 ```
+
 
 ## Usage
 
@@ -16,24 +18,26 @@ var gulp = require('gulp');
 
 gulp.task('default', function () {
 	return gulp.src('*.{tar,tar.bz2,tar.gz,zip}')
-		.pipe(decompress({ strip: 1 }))
+		.pipe(decompress({strip: 1}))
 		.pipe(gulp.dest('dist'));
 });
 ```
+
 
 ## Options
 
 ### mode
 
-Type: `String`  
+Type: `string`
 
-Set mode on the extracted files, i.e `{ mode: '755' }`.
+Set mode on the extracted files, i.e `{mode: '755'}`.
 
 ### strip
 
-Type: `Number`  
+Type: `number`
 
 Equivalent to `--strip-components` for tar.
+
 
 ## License
 

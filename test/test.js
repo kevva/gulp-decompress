@@ -1,11 +1,11 @@
 'use strict';
 
-var decompress = require('../');
 var fs = require('fs');
+var path = require('path');
 var gutil = require('gulp-util');
 var isJpg = require('is-jpg');
-var path = require('path');
 var test = require('ava');
+var decompress = require('../');
 
 test('extract .tar', function (t) {
 	t.plan(2);
@@ -13,8 +13,8 @@ test('extract .tar', function (t) {
 	var stream = decompress();
 
 	stream.on('data', function (file) {
-		t.assert(isJpg(file.contents));
-		t.assert(path.basename(file.path) === 'test.jpg');
+		t.assert(isJpg(file.contents), isJpg(file.contents));
+		t.assert(path.basename(file.path) === 'test.jpg', path.basename(file.path));
 	});
 
 	stream.end(new gutil.File({
@@ -29,8 +29,8 @@ test('extract .tar.bz2', function (t) {
 	var stream = decompress();
 
 	stream.on('data', function (file) {
-		t.assert(isJpg(file.contents));
-		t.assert(path.basename(file.path) === 'test.jpg');
+		t.assert(isJpg(file.contents), isJpg(file.contents));
+		t.assert(path.basename(file.path) === 'test.jpg', path.basename(file.path));
 	});
 
 	stream.end(new gutil.File({
@@ -45,8 +45,8 @@ test('extract .tar.gz', function (t) {
 	var stream = decompress();
 
 	stream.on('data', function (file) {
-		t.assert(isJpg(file.contents));
-		t.assert(path.basename(file.path) === 'test.jpg');
+		t.assert(isJpg(file.contents), isJpg(file.contents));
+		t.assert(path.basename(file.path) === 'test.jpg', path.basename(file.path));
 	});
 
 	stream.end(new gutil.File({
@@ -61,8 +61,8 @@ test('extract .zip', function (t) {
 	var stream = decompress();
 
 	stream.on('data', function (file) {
-		t.assert(isJpg(file.contents));
-		t.assert(path.basename(file.path) === 'test.jpg');
+		t.assert(isJpg(file.contents), isJpg(file.contents));
+		t.assert(path.basename(file.path) === 'test.jpg', path.basename(file.path));
 	});
 
 	stream.end(new gutil.File({
@@ -77,7 +77,7 @@ test('ignore non-archive files', function (t) {
 	var stream = decompress();
 
 	stream.on('data', function (file) {
-		t.assert(path.basename(file.path) === 'test.js');
+		t.assert(path.basename(file.path) === 'test.js', path.basename(file.path));
 	});
 
 	stream.end(new gutil.File({
