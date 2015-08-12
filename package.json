@@ -31,10 +31,10 @@
     "zip"
   ],
   "dependencies": {
-    "archive-type": "^2.0.0",
+    "archive-type": "^3.0.0",
     "decompress": "^2.1.1",
     "gulp-util": "^3.0.1",
-    "through2": "^0.6.3"
+    "through2": "^2.0.0"
   },
   "devDependencies": {
     "ava": "^0.0.4",
