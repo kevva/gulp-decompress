@@ -5,6 +5,7 @@ var path = require('path');
 var gutil = require('gulp-util');
 var isJpg = require('is-jpg');
 var test = require('ava');
+var Transform = require('readable-stream/transform');
 var decompress = require('../');
 
 test('extract .tar', function (t) {
@@ -83,5 +84,35 @@ test('ignore non-archive files', function (t) {
 	stream.end(new gutil.File({
 		contents: fs.readFileSync(__filename),
 		path: __filename
+	}));
+});
+
+test('handle decompress plugin', function (t) {
+	t.plan(4);
+
+	var plugin = function () {
+		return new Transform({
+			objectMode: true,
+			transform: function (file, enc, cb) {
+				t.assert(isJpg(file.contents), isJpg(file.contents));
+				t.assert(path.basename(file.path) === 'test.jpg', path.basename(file.path));
+
+				cb(null, file);
+			}
+		});
+	};
+
+	var stream = decompress({
+		use: plugin
+	});
+
+	stream.on('data', function (file) {
+		t.assert(isJpg(file.contents), isJpg(file.contents));
+		t.assert(path.basename(file.path) === 'test.jpg', path.basename(file.path));
+	});
+
+	stream.end(new gutil.File({
+		contents: fs.readFileSync(path.join(__dirname, 'fixtures/test.zip')),
+		path: path.join(__dirname, 'fixtures/test.zip')
 	}));
 });

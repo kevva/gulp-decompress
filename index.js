@@ -4,6 +4,7 @@ var archiveType = require('archive-type');
 var Decompress = require('decompress');
 var gutil = require('gulp-util');
 var Transform = require('readable-stream/transform');
+var arrify = require('arrify');
 
 module.exports = function (opts) {
 	opts = opts || {};
@@ -32,6 +33,10 @@ module.exports = function (opts) {
 				.use(Decompress.tarbz2(opts))
 				.use(Decompress.targz(opts))
 				.use(Decompress.zip(opts));
+
+			arrify(opts.use).forEach(function (plugin) {
+				decompress.use(plugin(opts));
+			});
 
 			decompress.run(function (err, files) {
 				if (err) {
