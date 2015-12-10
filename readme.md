@@ -38,6 +38,12 @@ Type: `number`
 
 Equivalent to `--strip-components` for tar.
 
+### use
+
+Type: `Array`, `Function`
+
+[decompress](https://github.com/kevva/decompress) plugin to use
+
 
 ## License
 
