@@ -26,15 +26,19 @@ gulp.task('default', function () {
 
 ## Options
 
+Type: `object`
+
 ### mode
 
 Type: `string`
 
-Set mode on the extracted files, i.e `{mode: '755'}`.
+Set permissions on the extracted files, i.e `{mode: '755'}`.
 
 ### strip
 
 Type: `number`
+
+Removes (or flattens) a number of leading directories from each file in the archive.
 
 Equivalent to `--strip-components` for tar.
 
