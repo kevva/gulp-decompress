@@ -13,10 +13,10 @@ $ npm install --save gulp-decompress
 ## Usage
 
 ```js
-var decompress = require('gulp-decompress');
-var gulp = require('gulp');
+const decompress = require('gulp-decompress');
+const gulp = require('gulp');
 
-gulp.task('default', function () {
+gulp.task('default', () => {
 	return gulp.src('*.{tar,tar.bz2,tar.gz,zip}')
 		.pipe(decompress({strip: 1}))
 		.pipe(gulp.dest('dist'));
@@ -26,17 +26,7 @@ gulp.task('default', function () {
 
 ## Options
 
-### mode
-
-Type: `string`
-
-Set mode on the extracted files, i.e `{mode: '755'}`.
-
-### strip
-
-Type: `number`
-
-Equivalent to `--strip-components` for tar.
+See the [decompress options](https://github.com/kevva/decompress#options).
 
 
 ## License
