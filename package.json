@@ -38,7 +38,9 @@
   },
   "devDependencies": {
     "ava": "*",
+    "get-stream": "^2.2.0",
     "is-jpg": "^1.0.0",
+    "pify": "^2.3.0",
     "xo": "*"
   },
   "xo": {
