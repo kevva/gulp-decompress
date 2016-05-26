@@ -1,4 +1,5 @@
 'use strict';
+const fs = require('fs');
 const archiveType = require('archive-type');
 const decompress = require('decompress');
 const gutil = require('gulp-util');
@@ -25,7 +26,13 @@ module.exports = opts => new Transform({
 		decompress(file.contents, opts)
 			.then(files => {
 				files.forEach(x => {
+					const stat = new fs.Stats();
+
+					stat.mode = x.mode;
+					stat.mtime = x.mtime;
+
 					this.push(new gutil.File({
+						stat,
 						contents: x.data,
 						path: x.path
 					}));

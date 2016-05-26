@@ -26,5 +26,6 @@ test('extract file', async t => {
 	const files = await getStream.array(stream);
 
 	t.is(files[0].path, 'test.jpg');
+	t.is(typeof files[0].stat, 'object');
 	t.true(isJpg(files[0].contents));
 });
