@@ -25,7 +25,16 @@ test('extract file', async t => {
 	const stream = await createStream();
 	const files = await getStream.array(stream);
 
-	t.is(files[0].path, 'test.jpg');
-	t.is(typeof files[0].stat, 'object');
-	t.true(isJpg(files[0].contents));
+	t.is(files[1].path, 'test.jpg');
+	t.is(typeof files[1].stat, 'object');
+	t.true(isJpg(files[1].contents));
+});
+
+test('ensure directory contents is `null`', async t => {
+	const stream = await createStream();
+	const files = await getStream.array(stream);
+
+	t.is(files[0].path, 'test/');
+	t.is(files[0].contents, null);
+	t.true(files[0].stat.isDirectory());
 });
