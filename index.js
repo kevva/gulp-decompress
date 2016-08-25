@@ -33,7 +33,7 @@ module.exports = opts => new Transform({
 
 					this.push(new gutil.File({
 						stat,
-						contents: x.data,
+						contents: stat.isDirectory() ? null : x.data,
 						path: x.path
 					}));
 				});
