@@ -25,7 +25,7 @@ module.exports = opts => new Transform({
 
 		decompress(file.contents, opts)
 			.then(files => {
-				files.forEach(x => {
+				for (const x of files) {
 					const stat = new fs.Stats();
 
 					stat.mode = x.mode;
@@ -37,7 +37,7 @@ module.exports = opts => new Transform({
 						contents: stat.isDirectory() ? null : x.data,
 						path: x.path
 					}));
-				});
+				}
 
 				cb();
 			})
