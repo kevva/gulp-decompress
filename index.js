@@ -23,7 +23,7 @@ module.exports = opts => new Transform({
 			return;
 		}
 
-		decompress(file.contents, opts)
+		decompress(file.contents, opts.output, opts)
 			.then(files => {
 				for (const x of files) {
 					const stat = new fs.Stats();
