@@ -1,6 +1,6 @@
 {
   "name": "gulp-decompress",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Extract TAR, TAR.BZ2, TAR.GZ and ZIP archives",
   "license": "MIT",
   "repository": "kevva/gulp-decompress",
