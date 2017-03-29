@@ -48,4 +48,4 @@ module.exports = opts => new Transform({
 				cb(new gutil.PluginError('gulp-decompress:', err, {fileName: file.path}));
 			});
 	}
-}
+});
