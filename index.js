@@ -6,7 +6,7 @@ const path = require('path');
 const gutil = require('gulp-util');
 const Transform = require('readable-stream/transform');
 
-module.exports = (opts={makeforlder: false}) => new Transform({
+module.exports = opts => new Transform({
 	objectMode: true,
 	transform(file, enc, cb) {
 		if (file.isNull()) {
@@ -24,7 +24,7 @@ module.exports = (opts={makeforlder: false}) => new Transform({
 			return;
 		}
 
-		let dir = opts.makefolder ? path.basename(file.path, path.extname(file.path)) : '';
+		let dir = (opts && opts.makefolder) ? path.basename(file.path, path.extname(file.path)) : '';
 
 		decompress(file.contents, opts)
 			.then(files => {
