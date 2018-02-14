@@ -2,8 +2,9 @@
 const fs = require('fs');
 const archiveType = require('archive-type');
 const decompress = require('decompress');
-const gutil = require('gulp-util');
+const PluginError = require('plugin-error');
 const Transform = require('readable-stream/transform');
+const Vinyl = require('vinyl');
 
 module.exports = opts => new Transform({
 	objectMode: true,
@@ -14,7 +15,7 @@ module.exports = opts => new Transform({
 		}
 
 		if (file.isStream()) {
-			cb(new gutil.PluginError('gulp-decompress', 'Streaming is not supported'));
+			cb(new PluginError('gulp-decompress', 'Streaming is not supported'));
 			return;
 		}
 
@@ -32,7 +33,7 @@ module.exports = opts => new Transform({
 					stat.mtime = x.mtime;
 					stat.isDirectory = () => x.type === 'directory';
 
-					this.push(new gutil.File({
+					this.push(new Vinyl({
 						stat,
 						contents: stat.isDirectory() ? null : x.data,
 						path: x.path
@@ -42,7 +43,7 @@ module.exports = opts => new Transform({
 				cb();
 			})
 			.catch(err => {
-				cb(new gutil.PluginError('gulp-decompress:', err, {fileName: file.path}));
+				cb(new PluginError('gulp-decompress:', err, {fileName: file.path}));
 			});
 	}
 });
