@@ -29,15 +29,23 @@ module.exports = opts => new Transform({
 				for (const x of files) {
 					const stat = new fs.Stats();
 
-					stat.mode = x.mode;
 					stat.mtime = x.mtime;
-					stat.isDirectory = () => x.type === 'directory';
+					if (x.type === 'symlink') {
+						stat.isSymbolicLink = () => true;
+					} else {
+						stat.mode = x.mode;
+						stat.isDirectory = () => x.type === 'directory';
+					}
 
-					this.push(new Vinyl({
+					let vinylOptions = {
 						stat,
-						contents: stat.isDirectory() ? null : x.data,
+						contents: (stat.isDirectory() || stat.isSymbolicLink()) ? null : x.data,
 						path: x.path
-					}));
+					};
+					if (x.linkname) {
+						vinylOptions.symlink = x.linkname;
+					}
+					this.push(new Vinyl(vinylOptions));
 				}
 
 				cb();
