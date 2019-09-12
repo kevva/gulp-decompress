@@ -38,10 +38,10 @@
     "vinyl": "^2.1.0"
   },
   "devDependencies": {
-    "ava": "*",
+    "ava": "1.0.0-beta.3",
     "get-stream": "^3.0.0",
     "is-jpg": "^1.0.0",
     "pify": "^3.0.0",
-    "xo": "*"
+    "xo": "^0.20.3"
   }
 }
