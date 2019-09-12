@@ -37,7 +37,7 @@ module.exports = opts => new Transform({
 						stat.isDirectory = () => x.type === 'directory';
 					}
 
-					let vinylOptions = {
+					const vinylOptions = {
 						stat,
 						contents: (stat.isDirectory() || stat.isSymbolicLink()) ? null : x.data,
 						path: x.path
@@ -45,13 +45,14 @@ module.exports = opts => new Transform({
 					if (x.linkname) {
 						vinylOptions.symlink = x.linkname;
 					}
+
 					this.push(new Vinyl(vinylOptions));
 				}
 
 				cb();
 			})
-			.catch(err => {
-				cb(new PluginError('gulp-decompress:', err, {fileName: file.path}));
+			.catch(error => {
+				cb(new PluginError('gulp-decompress:', error, {fileName: file.path}));
 			});
 	}
 });
