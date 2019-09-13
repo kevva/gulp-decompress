@@ -1,6 +1,6 @@
 {
   "name": "gulp-decompress",
-  "version": "2.0.3",
+  "version": "2.0.2",
   "description": "Extract TAR, TAR.BZ2, TAR.GZ and ZIP archives",
   "license": "MIT",
   "repository": "kevva/gulp-decompress",
@@ -38,10 +38,10 @@
     "vinyl": "^2.1.0"
   },
   "devDependencies": {
-    "ava": "0.25.0",
+    "ava": "*",
     "get-stream": "^3.0.0",
     "is-jpg": "^1.0.0",
     "pify": "^3.0.0",
-    "xo": "^0.20.3"
+    "xo": "*"
   }
 }
