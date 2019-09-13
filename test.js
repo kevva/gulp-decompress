@@ -38,3 +38,16 @@ test('ensure directory contents is `null`', async t => {
 	t.is(files[0].contents, null);
 	t.true(files[0].stat.isDirectory());
 });
+
+test('ensure symlinks are valid', async t => {
+	const stream = await createStream();
+	const files = await getStream.array(stream);
+	t.is(files[3].path, 'folder/batman.jpg');
+	t.true(isJpg(files[3].contents));
+
+	t.is(files[4].path, 'folder/batsymlink.jpg');
+	t.is(files[4]._symlink, 'batman.jpg');
+	t.is(files[4].contents, null);
+	t.false(files[4].stat.isDirectory());
+	t.true(files[4].stat.isSymbolicLink());
+});
