@@ -27,8 +27,3 @@ gulp.task('default', () =>
 ## Options
 
 See the [decompress options](https://github.com/kevva/decompress#options).
-
-
-## License
-
-MIT © [Kevin Mårtensson](https://github.com/kevva)

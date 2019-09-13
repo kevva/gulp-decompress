@@ -3,12 +3,12 @@ const fs = require('fs');
 const archiveType = require('archive-type');
 const decompress = require('decompress');
 const PluginError = require('plugin-error');
-const Transform = require('readable-stream/transform');
+const {Transform} = require('readable-stream');
 const Vinyl = require('vinyl');
 
-module.exports = opts => new Transform({
+module.exports = options => new Transform({
 	objectMode: true,
-	transform(file, enc, cb) {
+	async transform(file, enc, cb) {
 		if (file.isNull()) {
 			cb(null, file);
 			return;
@@ -24,35 +24,37 @@ module.exports = opts => new Transform({
 			return;
 		}
 
-		decompress(file.contents, opts)
-			.then(files => {
-				for (const x of files) {
-					const stat = new fs.Stats();
+		try {
+			const decompressedFiles = await decompress(file.contents, options);
 
-					stat.mtime = x.mtime;
-					if (x.type === 'symlink') {
-						stat.isSymbolicLink = () => true;
-					} else {
-						stat.mode = x.mode;
-						stat.isDirectory = () => x.type === 'directory';
-					}
+			for (const decompressedFile of decompressedFiles) {
+				const stats = new fs.Stats();
 
-					const vinylOptions = {
-						stat,
-						contents: (stat.isDirectory() || stat.isSymbolicLink()) ? null : x.data,
-						path: x.path
-					};
-					if (x.linkname) {
-						vinylOptions.symlink = x.linkname;
-					}
+				stats.mtime = decompressedFile.mtime;
 
-					this.push(new Vinyl(vinylOptions));
+				if (decompressedFile.type === 'symlink') {
+					stats.isSymbolicLink = () => true;
+				} else {
+					stats.mode = decompressedFile.mode;
+					stats.isDirectory = () => decompressedFile.type === 'directory';
 				}
 
-				cb();
-			})
-			.catch(error => {
-				cb(new PluginError('gulp-decompress:', error, {fileName: file.path}));
-			});
+				const vinylOptions = {
+					stat: stats,
+					contents: (stats.isDirectory() || stats.isSymbolicLink()) ? null : decompressedFile.data,
+					path: decompressedFile.path
+				};
+
+				if (decompressedFile.linkname) {
+					vinylOptions.symlink = decompressedFile.linkname;
+				}
+
+				this.push(new Vinyl(vinylOptions));
+			}
+
+			cb();
+		} catch (error) {
+			cb(new PluginError('gulp-decompress:', error, {fileName: file.path}));
+		}
 	}
 });
